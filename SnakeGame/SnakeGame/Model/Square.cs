@@ -9,5 +9,8 @@ namespace SnakeGame.Model
 {
   class Square
   {
+    public double Size { get; set; } = 15;
+    public int AppleId { get; set; }
+    public bool IsSnake { get; internal set; }
   }
 }

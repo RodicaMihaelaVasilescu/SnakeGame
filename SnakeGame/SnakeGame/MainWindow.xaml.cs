@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,7 +25,29 @@ namespace SnakeGame
     public MainWindow()
     {
       InitializeComponent();
-      SnakeBoardControl.DataContext = new SnakeBoardViewModel();
+      ViewModel = new SnakeBoardViewModel();
+      SnakeBoardControl.DataContext = ViewModel;
+    }
+
+    private SnakeBoardViewModel ViewModel { get; set; }
+
+    List<Key> AllDirections = new List<Key> { Key.Left, Key.Right, Key.Up, Key.Down };
+
+    Key CurrentKey = Key.Right;
+
+    private void Window_KeyDown(object sender, KeyEventArgs e)
+    {
+      if (AllDirections.Contains(e.Key))
+      {
+        if (CurrentKey == Key.Right && e.Key == Key.Left || CurrentKey == Key.Left && e.Key == Key.Right ||
+          CurrentKey == Key.Up && e.Key == Key.Down || CurrentKey == Key.Down && e.Key == Key.Up)
+        {
+          return;
+        }
+
+        CurrentKey = e.Key;
+        ViewModel.Direction = AllDirections.IndexOf(e.Key);
+      }
     }
   }
 }
